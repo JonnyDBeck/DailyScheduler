@@ -4,6 +4,8 @@ var dateEl = $('#currentDay');
 //timeblock Element holder
 var tbContainer = $('#tbContain');
 
+var scheduelBlock = storageCheck();
+
 getDate();
 createTBList();
 
@@ -44,6 +46,7 @@ function createTimeblock(hour, morning){
     } else{
         textEL.addClass('present');
     }
+    textEL.val(scheduelBlock[toKeys(hour)]);
 
     //button element 'styling'
     btnEL.text("💾");
@@ -54,6 +57,7 @@ function createTimeblock(hour, morning){
 }
 
 function createTBList() {
+    //creating lists
     for (var i = 9; i < 18; i++){
         if (i > 12){
             createTimeblock((i - 12), false);
@@ -61,4 +65,42 @@ function createTBList() {
             createTimeblock(i, true);
         }
     }
+
+    //adding listeners to all the buttons
+    document.querySelectorAll('button').forEach(item => {
+        item.addEventListener('click', clickevent => {
+
+            //getting timeblock elements
+            var hourOfTB = Number(item.previousSibling.previousSibling.textContent.slice(0, 2));
+            var textOfTB = item.previousSibling.value;
+
+            scheduelBlock[toKeys(hourOfTB)] = textOfTB;
+            localStorage.setItem("scheduelBlock", JSON.stringify(scheduelBlock));
+        })
+    })
+}
+
+function storageCheck(){
+    var saveableDate = moment().format("D M Y")
+
+    if(localStorage.getItem("saveDate") != saveableDate){
+        var emptyArray = ["sssss","","","dddddd","","","",""]
+
+        localStorage.setItem("saveDate", saveableDate);
+        localStorage.setItem("scheduelBlock", JSON.stringify(emptyArray))
+    }
+
+    return JSON.parse(localStorage.getItem("scheduelBlock"));
+}
+
+function toKeys(hour){
+
+    var outputKey = hour;
+
+    if (outputKey < 9 ){
+        outputKey += 12;
+    }
+    outputKey -= 9;
+
+    return outputKey;
 }
