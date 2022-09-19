@@ -4,8 +4,8 @@ var dateEl = $('#currentDay');
 //timeblock Element holder
 var tbContainer = $('#tbContain');
 
-createTimeblock(4, false);
 getDate();
+createTBList();
 
 function getDate(){
     var currDate = moment().format("dddd, MMMM Do");
@@ -51,4 +51,14 @@ function createTimeblock(hour, morning){
 
     //Putting it on page
     tbContainer.append(timeblockEL);
+}
+
+function createTBList() {
+    for (var i = 9; i < 18; i++){
+        if (i > 12){
+            createTimeblock((i - 12), false);
+        }else{
+            createTimeblock(i, true);
+        }
+    }
 }
