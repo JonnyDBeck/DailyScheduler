@@ -84,7 +84,7 @@ function storageCheck(){
     var saveableDate = moment().format("D M Y")
 
     if(localStorage.getItem("saveDate") != saveableDate){
-        var emptyArray = ["sssss","","","dddddd","","","",""]
+        var emptyArray = ["","","","","","","",""]
 
         localStorage.setItem("saveDate", saveableDate);
         localStorage.setItem("scheduelBlock", JSON.stringify(emptyArray))
